@@ -1,4 +1,7 @@
-# Web Framework
+pip>=23
+setuptools
+wheel
+build
 Flask==3.0.0
 Flask-CORS==4.0.0
 gunicorn==21.2.0
