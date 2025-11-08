@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Chatbot - RAG Powered</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔬 Quantum Chatbot</h1>
+            <p class="subtitle">AI-powered quantum computing assistant with RAG</p>
+        </header>
+
+        <div class="chat-container">
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot-message">
+                    <div class="message-content">
+                        <p>👋 Hello! I'm your quantum computing assistant powered by RAG (Retrieval-Augmented Generation).</p>
+                        <p>Ask me anything about quantum mechanics, qubits, entanglement, quantum algorithms, and more!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <form id="query-form">
+                    <input
+                        type="text"
+                        id="query-input"
+                        placeholder="Ask about quantum computing..."
+                        autocomplete="off"
+                    >
+                    <button type="submit" id="send-button">
+                        <span id="send-text">Send</span>
+                        <span id="loading-spinner" class="spinner hidden">⏳</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+            <p>Powered by arXiv, Wikipedia, IBM Quantum, Qiskit, and Groq AI</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
