@@ -9,6 +9,7 @@ from src.google_search import GoogleSearcher
 from src.web_scraper import WebScraper
 from src.query_processor import QueryProcessor
 from src.rag_engine import RAGEngine
+from src.twinflash import TwinFlashSystem
 
 # Load environment variables
 load_dotenv()
@@ -30,6 +31,10 @@ query_processor = QueryProcessor()
 # Initialize RAG engine
 print("\n[INIT] Initializing RAG Engine...")
 rag_engine = RAGEngine(groq_api_key=os.getenv('GROQ_API_KEY'))
+
+# Initialize TwinFlash AI
+print("\n[INIT] Initializing TwinFlash AI...")
+twinflash = TwinFlashSystem(capacity_gb=256, num_blocks=1000)
 
 
 @app.route('/')
@@ -148,14 +153,98 @@ def health_check():
             'web_scraping': True,
             'rag_engine': True,
             'llm': rag_engine.llm_available,
-            'llm_model': rag_engine.model_name if rag_engine.llm_available else None
+            'llm_model': rag_engine.model_name if rag_engine.llm_available else None,
+            'twinflash': True
         }
     })
 
 
+@app.route('/api/twinflash/status', methods=['GET'])
+def twinflash_status():
+    """Get TwinFlash system status"""
+    try:
+        status = twinflash.get_system_status()
+        return jsonify({
+            'success': True,
+            'status': status
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/twinflash/architecture', methods=['GET'])
+def twinflash_architecture():
+    """Get TwinFlash architecture information"""
+    try:
+        architecture = twinflash.get_architecture_info()
+        explanation = twinflash.explain_architecture()
+        return jsonify({
+            'success': True,
+            'architecture': architecture,
+            'explanation': explanation
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/twinflash/run-lifecycle', methods=['POST'])
+def twinflash_run_lifecycle():
+    """Run a single TwinFlash lifecycle"""
+    try:
+        data = request.json or {}
+        simulate_workload = data.get('simulate_workload', True)
+        
+        result = twinflash.run_lifecycle(simulate_workload=simulate_workload)
+        
+        return jsonify({
+            'success': True,
+            'result': result
+        })
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/twinflash/run-continuous', methods=['POST'])
+def twinflash_run_continuous():
+    """Run multiple TwinFlash lifecycles"""
+    try:
+        data = request.json or {}
+        num_cycles = data.get('num_cycles', 5)
+        
+        # Limit to reasonable number
+        num_cycles = min(num_cycles, 20)
+        
+        results = twinflash.run_continuous(num_cycles=num_cycles)
+        
+        return jsonify({
+            'success': True,
+            'cycles_completed': len(results),
+            'results': results
+        })
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/twinflash/ssd-stats', methods=['GET'])
+def twinflash_ssd_stats():
+    """Get SSD statistics"""
+    try:
+        stats = twinflash.ssd_layer.get_statistics()
+        return jsonify({
+            'success': True,
+            'statistics': stats
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 if __name__ == '__main__':
     print("\n" + "=" * 70)
-    print("🚀 QUANTUM CHATBOT WITH FREE RAG")
+    print("🚀 QUANTUM CHATBOT WITH FREE RAG + TWINFLASH AI")
     print("=" * 70)
     print(f"📚 Data Sources:")
     print(f"   ✓ arXiv Research Papers")
@@ -167,6 +256,11 @@ if __name__ == '__main__':
     print(f"   ✓ Vector DB: ChromaDB (in-memory)")
     print(
         f"   {'✓' if rag_engine.llm_available else '○'} LLM: {rag_engine.model_name if rag_engine.llm_available else 'Not configured'}")
+    print(f"\n💾 TwinFlash AI:")
+    print(f"   ✓ Digital Twin SSD Simulation")
+    print(f"   ✓ Reinforcement Learning Engine")
+    print(f"   ✓ Counterfactual Decision Making")
+    print(f"   ✓ Continuous Learning System")
     print("=" * 70 + "\n")
 
     if not rag_engine.llm_available:

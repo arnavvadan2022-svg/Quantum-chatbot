@@ -1,11 +1,11 @@
-# 🤖 Quantum RAG Chatbot
+# 🤖 Quantum RAG Chatbot + TwinFlash AI
 
-A powerful Retrieval-Augmented Generation (RAG) chatbot that combines document retrieval with AI-powered responses to provide intelligent, context-aware answers based on your knowledge base.
+A powerful Retrieval-Augmented Generation (RAG) chatbot that combines document retrieval with AI-powered responses, now featuring **TwinFlash AI** - an advanced Digital Twin architecture for intelligent SSD management using Reinforcement Learning.
 
 ## 📋 Table of Contents
 
 - [Features](#features)
-- [Architecture](#architecture)
+- [TwinFlash AI Architecture](#twinflash-ai-architecture)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -18,6 +18,7 @@ A powerful Retrieval-Augmented Generation (RAG) chatbot that combines document r
 
 ## ✨ Features
 
+### RAG Chatbot Features
 - **Document Ingestion**: Upload and process various document formats (PDF, TXT, DOCX, etc.)
 - **Vector Storage**: Efficient document embedding and storage using vector databases
 - **Semantic Search**: Find relevant information using semantic similarity
@@ -26,30 +27,95 @@ A powerful Retrieval-Augmented Generation (RAG) chatbot that combines document r
 - **REST API**: Easy integration with web and mobile applications
 - **Scalable Architecture**: Built to handle large document collections
 
-## 🏗️ Architecture
+### TwinFlash AI Features
+- **Digital Twin SSD Simulation**: Virtual mirror of physical storage devices
+- **Counterfactual RL Engine**: Simulates multiple future scenarios for optimal decision-making
+- **Predictive Models**: Wear, latency, and error prediction models
+- **Safety Mechanisms**: Confidence thresholds and fallback rules prevent risky actions
+- **Continuous Learning**: Self-improving system that learns from outcomes
+- **Real-time Telemetry**: Live monitoring of SSD health and performance
+
+## 🏗️ TwinFlash AI Architecture
+
+TwinFlash AI implements a sophisticated 6-layer architecture for intelligent SSD management:
 
 ```
-┌─────────────┐
-│   User      │
-└──────┬──────┘
-       │
-       ▼
-┌─────────────────┐
-│  Web Interface  │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────────┐
-│   Flask API Server  │
-└────────┬────────────┘
-         │
-    ┌────┴────┐
-    ▼         ▼
-┌────────┐ ┌──────────────┐
-│ Vector │ │ LLM Provider │
-│  DB    │ │ (OpenAI/etc) │
-└────────┘ └──────────────┘
+Input → Twin → Simulation → Intelligence → Execution → Feedback
+
+┌─────────────────────────────────────────────────────────────┐
+│                    TWINFLASH AI SYSTEM                      │
+└─────────────────────────────────────────────────────────────┘
+
+Layer 1: Real SSD Layer (Physical Layer)
+├── Role: Interface with actual storage device
+├── Provides: Live Storage Telemetry
+└── Components: Read/Write Ops, Block Status, Wear Counters, 
+    Error Logs, Temperature, I/O Workload
+
+Layer 2: State Synchronization Layer
+├── Role: Keep Digital Twin updated with real SSD
+├── Provides: S(t) = Current SSD State
+└── Techniques: Log Mirroring, Event Streaming, Periodic Snapshots
+
+Layer 3: Digital Twin Layer (Simulation Engine)
+├── Role: Virtual SSD in software
+├── Provides: S(t+1) = Predicted State
+└── Models:
+    ├── Wear Model: Predicts erase cycle impact & block degradation
+    ├── Latency Model: Predicts read/write delay & queue congestion
+    └── Error Model: Predicts bit error rate, retention loss, ECC failures
+
+Layer 4: Counterfactual RL Layer (Decision Engine) [BRAIN]
+├── Role: Runs multiple "parallel futures"
+├── Provides: A* = Optimal Action
+└── Components:
+    ├── Action Generator: Generates possible actions
+    ├── Parallel Simulator: Creates Future_i = Twin(S(t), A_i)
+    ├── Evaluation Engine: Measures wear, latency, error, lifetime, energy
+    └── RL Policy Network: Learns π(S) → A* using DQN/PPO
+
+Layer 5: Decision & Execution Layer
+├── Role: Applies AI decision to real SSD
+├── Provides: Action Execution
+├── Actions: Firmware commands, compression, GC, mapping updates
+└── Safety: If confidence < threshold → fallback rules
+
+Layer 6: Feedback & Learning Layer (Self-Improvement)
+├── Role: Makes system smarter over time
+├── Provides: Model Updates
+└── Loop: Prediction → Reality → Error → Learning (continuous)
 ```
+
+### Data Flow Pipeline
+
+```
+Real SSD
+   ↓ [Telemetry]
+State Sync
+   ↓ [S(t)]
+Digital Twin
+   ↓ [Parallel Simulations]
+RL Simulator
+   ↓ [Evaluated Futures]
+Evaluation Engine
+   ↓ [Scores]
+Decision Unit
+   ↓ [Optimal Action A*]
+Firmware Executor
+   ↓ [Execution Result]
+Feedback Logger
+   ↺ [Learning Loop back to Twin]
+```
+
+### Why This Architecture Is Powerful
+
+| Feature        | Traditional SSD | TwinFlash AI |
+|----------------|-----------------|--------------|
+| Decision Making| Static          | Adaptive     |
+| Learning       | No              | Yes          |
+| Simulation     | No              | Yes          |
+| Prediction     | No              | Yes          |
+| Safety         | Limited         | High         |
 
 ## 📦 Prerequisites
 
@@ -133,30 +199,78 @@ python app.py
    - Upload documents using the web interface
    - Start chatting with your documents
 
+### Using TwinFlash AI
+
+1. **Demo TwinFlash**:
+   ```bash
+   python test_twinflash.py
+   ```
+   
+   This will run a comprehensive demo showing:
+   - Architecture overview
+   - Single lifecycle execution
+   - Continuous operation (5 cycles)
+   - System status and statistics
+
+2. **API Usage**:
+
+   **Get TwinFlash Status**:
+   ```bash
+   curl http://localhost:5000/api/twinflash/status
+   ```
+
+   **Get Architecture Info**:
+   ```bash
+   curl http://localhost:5000/api/twinflash/architecture
+   ```
+
+   **Run Single Lifecycle**:
+   ```bash
+   curl -X POST -H "Content-Type: application/json" \
+        -d '{"simulate_workload": true}' \
+        http://localhost:5000/api/twinflash/run-lifecycle
+   ```
+
+   **Run Continuous Cycles**:
+   ```bash
+   curl -X POST -H "Content-Type: application/json" \
+        -d '{"num_cycles": 5}' \
+        http://localhost:5000/api/twinflash/run-continuous
+   ```
+
+   **Get SSD Statistics**:
+   ```bash
+   curl http://localhost:5000/api/twinflash/ssd-stats
+   ```
+
 ## 📁 Project Structure
 
 ```
 Quantum-chatbot/
 │
 ├── app.py                  # Main Flask application
+├── test_twinflash.py      # TwinFlash demo script
 ├── requirements.txt        # Python dependencies
 ├── .env                    # Environment variables (create this)
 ├── .gitignore             # Git ignore file
 │
-├── models/                 # ML models and embeddings
-│   ├── embeddings.py      # Document embedding logic
-│   └── llm.py             # LLM integration
-│
-├── data/                   # Data storage
-│   ├── vectordb/          # Vector database storage
-│   └── documents/         # Processed documents
-│
-├── uploads/               # Temporary upload directory
-│
-├── utils/                 # Utility functions
-│   ├── document_processor.py  # Document parsing
-│   ├── vector_store.py        # Vector DB operations
-│   └── helpers.py             # Helper functions
+├── src/                    # Source code
+│   ├── arxiv_search.py    # arXiv paper search
+│   ├── google_search.py   # Google search integration
+│   ├── serpapi_search.py  # SerpAPI integration
+│   ├── web_scraper.py     # Web scraping
+│   ├── query_processor.py # Query processing
+│   ├── rag_engine.py      # RAG engine
+│   │
+│   └── twinflash/         # TwinFlash AI modules
+│       ├── __init__.py
+│       ├── ssd_layer.py           # Real SSD Layer (Physical)
+│       ├── state_sync.py          # State Synchronization
+│       ├── digital_twin.py        # Digital Twin (Simulation)
+│       ├── rl_engine.py           # Counterfactual RL Engine
+│       ├── decision_executor.py   # Decision & Execution
+│       ├── feedback_logger.py     # Feedback & Learning
+│       └── twinflash_core.py      # Core System Orchestration
 │
 ├── static/                # Static files (CSS, JS)
 │   ├── css/
